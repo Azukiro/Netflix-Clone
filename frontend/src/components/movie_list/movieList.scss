@@ -1,0 +1,44 @@
+.movie_list{
+    width: 100%;
+    margin-top: 10px;
+
+    .list_title{
+        font-stretch: 20px;
+        font-weight: 500;
+        color: white;
+        margin-left: 50px;
+    }
+
+
+    .wrapper{
+        position: relative;
+        .slider_arrow{
+            width: 50px;
+            height: 100%;
+            background-color: rgba(22,22,22,0.5);
+            position: absolute;
+            color: white;
+            z-index: 9;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            cursor: pointer;
+
+            &.left{
+                left: 0;
+            }
+
+            &.right{
+                right: 0;
+            }
+        }
+        .container{
+            margin-left: 50px;
+            display: flex;
+            margin-top: 10px;
+            width: max-content;
+            transform: translateX(0px);
+            transition: all 1s ease;
+        }
+    }
+}
