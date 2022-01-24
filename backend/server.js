@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
+import moviesRoutes from "./routes/movies.js";
+import movieListsRoutes from "./routes/movieLists.js"; 
 
 //App config
 dotenv.config();
@@ -30,5 +32,9 @@ mongoose.connect(process.env.MONGODB_URL, {
 app.use("/api/auth", authRoutes);
 
 app.use("/api/users", usersRoutes);
+
+app.use("/api/movies", moviesRoutes);
+
+app.use("/api/movieLists", movieListsRoutes);
 //Listener
 app.listen(process.env.PORT, () => console.log(`Server is running on localhost : ${process.env.PORT}`));

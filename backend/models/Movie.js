@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MovieSchema = new mangoose.Schema(
+const MovieSchema = new mongoose.Schema(
     {
         title: { type: String, required: true, unique: true },
         description: { type: String},
@@ -19,4 +19,4 @@ const MovieSchema = new mangoose.Schema(
     }
 );
 
-export default mangoose.model("Movie", MovieSchema);
+export default mongoose.model("Movie", MovieSchema);
