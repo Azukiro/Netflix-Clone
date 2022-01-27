@@ -27,7 +27,7 @@ router.put("/:id", verify, async (req, res) => {
 
       res.status(200).json(updatedUser);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err + "");
     }
   } else {
     res.status(403).json({ message: "You can update only your account" });
@@ -42,7 +42,7 @@ router.delete("/:id", verify, async (req, res) => {
 
       res.status(200).json({ message: "User deleted" });
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err + "");
     }
   } else {
     res.status(403).json({ message: "You can delete only your account" });
@@ -56,7 +56,7 @@ router.get("/find/:id", async (req, res) => {
     const { password, ...infos } = user._doc; //user document
     res.status(200).json(infos);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err + "");
   }
 });
 
@@ -68,10 +68,9 @@ router.get("/", verify, async (req, res) => {
       const users = query
         ? await User.find().sort({ _id: -1 }).limit(10)
         : await User.find();
-      console.log(users[0]);
       res.status(200).json(users);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err + "");
     }
   } else {
     res.status(403).json({ message: "You are not allowed to see all users !" });
@@ -79,32 +78,27 @@ router.get("/", verify, async (req, res) => {
 });
 
 //GET USER STATS
-router.get(
-  "/stats",
-  async (req, res)=>{
-    const today = new Date();
-    const lastYear = today.setFullYear() - 1; 
+router.get("/stats", async (req, res) => {
+  const today = new Date();
+  const lastYear = today.setFullYear() - 1;
 
-    try{
-      const data = await User.aggregate(
-        [
-          {
-            $project : {
-              month : { $month : "$createdAt" },
-            }
-          },
-          {
-            $group : {
-              _id : { month : "$month" },
-              total : { $sum : 1 }
-            }
-          }
-        ]
-      );
-      res.status(200).json(data);
-    }catch(err){
-      res.status(500).json(err);
-    }
+  try {
+    const data = await User.aggregate([
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+        },
+      },
+      {
+        $group: {
+          _id: { month: "$month" },
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json(err + "");
   }
-)
+});
 export default router;

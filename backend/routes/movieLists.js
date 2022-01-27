@@ -4,106 +4,82 @@ import verify from "../verifyToken.js";
 const router = Router();
 
 //CREATE
-router.put("/", verify, async (req, res) => {
-    if (req.user.isAdmin) {
-        const newMovieList = new Movie(req.body);
-        
-        try {
-            const createdMovieList = await MovieList.save();
-            res.status(200).json(createdMovieList);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    } else {
-        res.status(403).json({ message: "You are not allowed" });
-    }
-});
+router.post("/", verify, async (req, res) => {
+  if (req.user.isAdmin) {
+    const newMovieList = new MovieList(req.body);
 
-//UPDATE
-router.put("/:id", verify, async (req, res) => {
-    if (req.user.isAdmin) {
-         try {
-            const updatedMovieList = await newMovieList.findByIdAndUpdate(req.params.id,
-                {
-                    $set : req.body
-                },
-                {
-                    neww: true
-                });
-            res.status(200).json(updatedMovieList);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    } else {
-        res.status(403).json({ message: "You are not allowed" });
+    try {
+      const createdMovieList = await newMovieList.save();
+      res.status(200).json(createdMovieList);
+    } catch (err) {
+      res.status(500).json(err + "");
     }
+  } else {
+    res.status(403).json({ message: "You are not allowed" });
+  }
 });
 
 //DELETE
 router.delete("/:id", verify, async (req, res) => {
-    if (req.user.isAdmin) {
-         try {
-            await MovieList.findByIdAndDelete(req.params.id);
-            res.status(200).json({ message: "MovieList deleted" });
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    } else {
-        res.status(403).json({ message: "You are not allowed" });
+  if (req.user.isAdmin) {
+    try {
+      await MovieList.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "MovieList deleted" });
+    } catch (err) {
+      res.status(500).json(err + "");
     }
-});
-
-//GET
-router.get("/find/:id",verify, async (req, res) => {
-  try {
-    const movieList = await MovieList.findById(req.params.id);
-    res.status(200).json(movieList);
-  } catch (err) {
-    res.status(500).json(err);
+  } else {
+    res.status(403).json({ message: "You are not allowed" });
   }
 });
 
-//GET RANDOM
-router.get("/random",verify, async (req, res) => {
-    const type = req.query.type;
-    let movieList;
-    try {
-        if(type === "series"){
-            movieList = await MovieList.aggregate(
-                [
-                    {
-                        $match : {
-                            isSeries : true
-                        }
-                    },
-                    {
-                        $sample: { 
-                            size: 1
-                        }
-                    }
-                ]
-            );
-        }else{
-            movieList = await MovieList.aggregate(
-                [
-                    {
-                        $match : {
-                            isSeries : false
-                        }
-                    },
-                    {
-                        $sample: { 
-                            size: 1
-                        }
-                    }
-                ]
-            );
-        }
-        res.status(200).json(movieList);
-    } catch (err) {
-        res.status(500).json(err);
+//GET
+router.get("/", verify, async (req, res) => {
+  const type = req.query.type;
+  const genre = req.query.genre;
+  let movieList = [];
+  try {
+    if (type) {
+      if (genre) {
+        movieList = await MovieList.aggregate([
+          {
+            $match: {
+              type: type,
+              genre: genre,
+            },
+          },
+          {
+            $sample: {
+              size: 10,
+            },
+          },
+        ]);
+      } else {
+        movieList = await MovieList.aggregate([
+          {
+            $match: {
+              type: type,
+            },
+          },
+          {
+            $sample: {
+              size: 10,
+            },
+          },
+        ]);
+      }
+    } else {
+      movieList = await MovieList.aggreagate({
+        $sample: {
+          size: 10,
+        },
+      });
     }
-  });
+    res.status(200).json(movieList);
+  } catch (err) {
+    res.status(500).json(err + "");
+  }
+});
 
 //GET ALL
 router.get("/", verify, async (req, res) => {
@@ -115,7 +91,7 @@ router.get("/", verify, async (req, res) => {
         : await MovieList.find();
       res.status(200).json(movieLists);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err + "");
     }
   } else {
     res.status(403).json({ message: "You are not allowed to see all users !" });

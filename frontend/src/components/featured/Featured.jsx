@@ -4,8 +4,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function Featured({ type }) {
 
-    console.log(type);
-
     return (
         <div className='featured'>
             {
