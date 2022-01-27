@@ -81,21 +81,4 @@ router.get("/", verify, async (req, res) => {
   }
 });
 
-//GET ALL
-router.get("/", verify, async (req, res) => {
-  const query = req.query.new;
-  if (req.user.isAdmin) {
-    try {
-      const movieLists = query
-        ? await MovieList.find().sort({ _id: -1 }).limit(10)
-        : await MovieList.find();
-      res.status(200).json(movieLists);
-    } catch (err) {
-      res.status(500).json(err + "");
-    }
-  } else {
-    res.status(403).json({ message: "You are not allowed to see all users !" });
-  }
-});
-
 export default router;
