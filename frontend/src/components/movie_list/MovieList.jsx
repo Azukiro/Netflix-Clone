@@ -2,7 +2,7 @@ import './movieList.scss';
 import { ArrowBackIosOutlined, ArrowForwardIosOutlined } from '@mui/icons-material';
 import MovieListItem from '../movie_list_item/MovieListItem';
 import { useRef, useState } from 'react';
-const MovieList = () => {
+const MovieList = ({ movieList }) => {
 
     const [slideNumber, setSlideNumber] = useState(0);
     const listRef = useRef();
@@ -18,7 +18,7 @@ const MovieList = () => {
     };
     return (
         <div className='movie_list'>
-            <span className="list_title">Continue to watch</span>
+            <span className="list_title">{movieList.title}</span>
             <div className="wrapper">
                 <ArrowBackIosOutlined
                     className='slider_arrow left'
@@ -26,16 +26,13 @@ const MovieList = () => {
                     style={{ display: slideNumber === 0 && 'none' }}
                 />
                 <div className="container" ref={listRef}>
-                    <MovieListItem index={0} />
-                    <MovieListItem index={1} />
-                    <MovieListItem index={2} />
-                    <MovieListItem index={3} />
-                    <MovieListItem index={4} />
-                    <MovieListItem index={5} />
-                    <MovieListItem index={6} />
-                    <MovieListItem index={7} />
-                    <MovieListItem index={8} />
-                    <MovieListItem index={9} />
+                    {
+                        movieList.content.map((item, index) => {
+                            return (
+                                <MovieListItem index={index} key={item.id} item={item} />
+                            )
+                        })
+                    }
                 </div>
                 <ArrowForwardIosOutlined className='slider_arrow right'
                     onClick={() => handleClick('right')} />

@@ -69,11 +69,13 @@ router.get("/", verify, async (req, res) => {
         ]);
       }
     } else {
-      movieList = await MovieList.aggreagate({
-        $sample: {
-          size: 10,
+      movieList = await MovieList.aggregate([
+        {
+          $sample: {
+            size: 10,
+          },
         },
-      });
+      ]);
     }
     res.status(200).json(movieList);
   } catch (err) {
