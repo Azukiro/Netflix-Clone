@@ -1,6 +1,7 @@
 import './navbar.scss';
-import {useState} from "react";
-import { Search, Notifications, Person, ArrowDropDown }   from '@mui/icons-material';
+import { useState } from "react";
+import { Search, Notifications, Person, ArrowDropDown } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 const Navbar = () => {
 
     const [isScrolled, setIsScrolled] = useState(false);
@@ -12,31 +13,37 @@ const Navbar = () => {
         <div className={isScrolled ? "navbar scrolled" : "navbar"}>
             <div className="container">
                 <div className="left">
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/langfr-280px-Netflix_2015_logo.svg.png"
-                        alt="netflix logo"
-                    />
-                    <span>HomePage</span>
-                    <span>Series</span>
-                    <span>Movies</span>
+
+                    <Link to="/" className='link'>
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/langfr-280px-Netflix_2015_logo.svg.png"
+                            alt="netflix logo"
+                        />
+                    </Link>
+                    <Link to="/series" className='link'>
+                        <span>Series</span>
+                    </Link>
+                    <Link to="/movies" className='link'>
+                        <span>Movies</span>
+                    </Link>
                     <span>New and Popular</span>
                     <span>My List</span>
                 </div>
 
                 <div className="right">
-                    <Search className='icon'/>
+                    <Search className='icon' />
                     <span>KID</span>
-                    <Notifications className='icon'/>
+                    <Notifications className='icon' />
                     <Person className='icon' />
                     <div className="profile">
-                        <ArrowDropDown className='icon'/>
+                        <ArrowDropDown className='icon' />
                         <div className="options">
                             <span>Settings</span>
                             <span>Logout</span>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     )

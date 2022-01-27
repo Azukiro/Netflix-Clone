@@ -15,7 +15,7 @@ const Register = () => {
         setPwd(pwdRef.current.value);
     }
     return (
-        <div className="login">
+        <div className="register">
             <div className="top">
                 <div className="wrapper">
 
@@ -37,7 +37,7 @@ const Register = () => {
                         Ready to watch? Enter your email to create or restart your membership.
                     </p>{
                         !email ? (
-                            <div className="input">
+                            <div className="input_field">
                                 <input type="email" placeholder='email adress' ref={emailRef} />
                                 <button className="register_button" onClick={handleStart}>
                                     Get Started
@@ -46,7 +46,7 @@ const Register = () => {
 
                             </div>
                         ) : (
-                            <form className="input">
+                            <form className="input_field">
                                 <input type="password" placeholder='password' ref={pwdRef} />
                                 <button className="register_button" onClick={handleFinish}>
                                     Start

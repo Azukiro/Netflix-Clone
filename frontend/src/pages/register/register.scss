@@ -62,7 +62,7 @@
       font-size: 20px;
     }
 
-    .input {
+    .input_field {
       width: 50%;
       background-color: white;
       display: flex;
@@ -72,13 +72,6 @@
       height: 50px;
       border-radius: 5px;
 
-      input {
-        flex: 9;
-        height: 100%;
-        border: none;
-        padding: 0 10px;
-      }
-
       .register_button {
         flex: 3;
         height: 100%;
@@ -87,6 +80,13 @@
         color: white;
         cursor: pointer;
         font-size: 22px;
+      }
+
+      input {
+        flex: 9;
+        height: 100%;
+        border: none;
+        padding: 0 10px;
       }
     }
   }
