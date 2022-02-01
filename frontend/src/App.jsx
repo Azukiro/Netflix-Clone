@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/series" element={
           user ? <Home type="series" /> : <Navigate to="/register" />
         } />
-        <Route path="/watch" element={
+        <Route path="/watch/:movieId" element={
           user ? <Watch /> : <Navigate to="/register" />
         } />
         <Route path="/login" element={

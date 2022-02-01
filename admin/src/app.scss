@@ -1,0 +1,10 @@
+.app {
+  .container {
+    display: flex;
+
+    .other_page {
+      flex: 4;
+      background-color: red;
+    }
+  }
+}

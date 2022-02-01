@@ -29,7 +29,7 @@ const MovieList = ({ movieList }) => {
                     {
                         movieList.content.map((item, index) => {
                             return (
-                                <MovieListItem index={index} key={item.id} item={item} />
+                                <MovieListItem index={index} key={index} item={item} />
                             )
                         })
                     }

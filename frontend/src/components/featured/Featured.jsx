@@ -1,9 +1,28 @@
 import './featured.scss';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { useState, useEffect } from 'react';
+import axios from "axios";
 
 function Featured({ type }) {
+    const [content, setContent] = useState({});
 
+    useEffect(() => {
+        const getRandomContent = async () => {
+            try {
+                const res = await axios.get(`/movies/random/?type=${type}`, {
+                    headers: {
+                        token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZWVlNTYzNDBjOGFlM2MxZWEzNDMzOCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MzMwODg4OCwiZXhwIjoxNjQzNzQwODg4fQ.wPIf5IPVVwlyIuA6IqsDfmUesjSw5fbOSLR7UZDSU0Q"
+                    }
+                });
+                console.log(res.data)
+                setContent(res.data[0]);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getRandomContent();
+    }, [type]);
     return (
         <div className='featured'>
             {
@@ -31,14 +50,15 @@ function Featured({ type }) {
             <img
                 width='100%'
 
-                src="http://www.snut.fr/wp-content/uploads/2015/08/image-de-paysage.jpg" alt="paysage" />
+                src={content.image} alt="image" />
             <div className="info">
 
                 <img
-                    src="https://upload.wikimedia.org/wikipedia/fr/thumb/4/48/Jumanji_%28film%2C_1995%29_Logo.png/220px-Jumanji_%28film%2C_1995%29_Logo.png" alt="Jumanhi" />
+                    src={content.image_title}
+                    alt="image_title" />
 
                 <span className='desc'>
-                    uis porttitor massa dictum sit amet. Sed suscipit est ac elit bibendum, in pharetra mauris scelerisque. Sed porta justo ac euismod finibus. Vivamus nisi ligula, consectetur non blandit id, pretium et velit. Praesent vestibulum sollicitudin justo, ac lacinia libero sollicitudin ac. Maecenas rutrum erat quis condimentum varius. Mauris tempor dui lectus, vitae pulvinar justo pretium vel. In hac habitasse platea dictumst. Sed id elementum justo. Quisque accumsan augue ut dolor laoreet, sed imperdiet orci vulputate. Morbi blandit purus nec massa tempor dictum. Nam et nibh eu nisi auctor euismod vitae pretium mauris.
+                    {content.description}
                 </span>
 
                 <div className="buttons">

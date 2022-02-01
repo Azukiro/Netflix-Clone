@@ -18,6 +18,7 @@ const Home = ({ type }) => {
                     }
 
                 });
+                console.log(`/movieLists${type ? "?type=" + type : ""}${genre ? "&genre=" + genre : ""}`)
                 setMovieLists(res.data);
             } catch (err) {
                 console.log(err);
@@ -32,10 +33,12 @@ const Home = ({ type }) => {
             <Featured type={type} />
 
             {
+
                 movieLists.map(movieList => {
-                    console.log(movieList);
+
                     return (
-                        <MovieList key={movieList.id} movieList={movieList} />
+
+                        <MovieList key={movieList._id} movieList={movieList} />
                     )
                 })
             }
